@@ -1,4 +1,5 @@
 #include "server/server.hpp"
+#include "session/session.hpp"
 #include <boost/asio.hpp>
 
 
@@ -12,11 +13,18 @@ void Server::accept_client()
 {
     tcp::socket socket = acceptor_.accept();
 
+    Session session(std::move(socket));
+    session.start();
+
 }
 
 void Server::start()
 {
-    accept_client();
+
+    for(;;)
+    {
+        accept_client();
+    }
 }
 
 

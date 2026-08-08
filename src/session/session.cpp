@@ -8,16 +8,20 @@ Session::Session(tcp::socket socket):socket_(std::move(socket)){}
 
 void Session::read()
 {
-    socket_.async_read_some(
-        boost::asio::buffer(buffer_),
-        [this](
-            boost::system::error_code,
-            std::size_t bytes
-        )
-        {
-            write(bytes);
-        }
-    );
+    for(;;)
+    {
+        boost::system::error_code ec;
+
+        std::size_t bytes = socket_.read_some(
+            boost::asio::buffer(buffer_),
+            ec
+        );
+
+        if(ec)break;
+
+        write(bytes);
+    }
+
 
 
 }
@@ -25,15 +29,12 @@ void Session::read()
 
 void Session::write(std::size_t bytes_transfered)
 {
-    boost::asio::async_write(
+    boost::asio::write(
         socket_,
-        boost::asio::buffer(buffer_.data(),bytes_transfered),
-
-        [this](boost::system::error_code,
-        std::size_t)
-        {
-            read();
-        }
+        boost::asio::buffer(
+            buffer_.data(),
+            bytes_transfered
+        )
     );
 
 }
