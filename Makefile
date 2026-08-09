@@ -1,10 +1,13 @@
 CXX = g++
+TARGET = echo_server
+CXXFLAG = -std=c++20 -Wall -Wextra
+CPPFLAGS = -I include
 
-echo_server: main.o server.o session.o
-	$(CXX) main.o server.o session.o -o echo_server
+$(TARGET): main.o server.o session.o
+	$(CXX) main.o server.o session.o -o $(TARGET)
 main.o: main.cpp
-	$(CXX) -Iinclude -c main.cpp -o main.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c main.cpp -o main.o
 server.o: src/server/server.cpp
-	$(CXX) -Iinclude -c src/server/server.cpp -o server.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c src/server/server.cpp -o server.o
 session.o: src/session/session.cpp
-	$(CXX) -Iinclude -c src/session/session.cpp -o session.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c src/session/session.cpp -o session.o
