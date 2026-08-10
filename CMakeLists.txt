@@ -12,3 +12,8 @@ target_include_directories(echo_server
     PRIVATE
     include
 )
+
+target_compile_features(echo_server
+    PRIVATE
+    cxx_std_20
+)
