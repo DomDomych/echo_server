@@ -17,3 +17,11 @@ target_compile_features(echo_server
     PRIVATE
     cxx_std_20
 )
+
+target_compile_options(echo_server
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+)
+
