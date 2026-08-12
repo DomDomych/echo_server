@@ -5,6 +5,27 @@ using tcp = boost::asio::ip::tcp;
 
 Session::Session(tcp::socket socket):socket_(std::move(socket)){}
 
+void Session::parse(Request& req,std::string_view data)
+{
+    std::size_t pos = data.find(' ');
+
+    req.command = data.substr(0,pos);
+
+    data.remove_prefix(pos+1);
+
+    pos = data.find(' ');
+
+    req.key = data.substr(0,pos);
+
+    if(req.command == "GET")return;
+
+    else
+    {
+        data.remove_prefix(pos+1);
+        req.value = data;
+        return;
+    }
+}
 
 void Session::read()
 {
@@ -18,8 +39,29 @@ void Session::read()
         );
 
         if(ec)break;
+        std::string_view temp_data{buffer_.data(),bytes};
 
-        write(bytes);
+        if(!temp_data.empty() && temp_data.back()=='\n' ||
+           !temp_data.empty() && temp_data.back()=='\r')
+        {
+            temp_data.remove_suffix(1);
+        }
+        parse(req,temp_data);
+
+        if(req.command=="SET")
+        {
+
+           values[std::string(req.key)]=std::string(req.value); 
+           write("Dom_Dom setted your value by this key!\n");   
+        }
+
+        else if(req.command == "GET")
+        {
+            std::string response = values[std::string(req.key)]+"\n";
+            write(response);
+        }
+
+        
     }
 
 
@@ -27,13 +69,12 @@ void Session::read()
 }
 
 
-void Session::write(std::size_t bytes_transfered)
+void Session::write(const std::string& message)
 {
     boost::asio::write(
         socket_,
         boost::asio::buffer(
-            buffer_.data(),
-            bytes_transfered
+            message
         )
     );
 
