@@ -3,7 +3,7 @@
 
 using tcp = boost::asio::ip::tcp;
 
-Session::Session(tcp::socket socket,std::unordered_map<std::string,std::string>* server_storage):socket_(std::move(socket)),
+Session::Session(tcp::socket socket,std::unordered_map<std::string,std::string>& server_storage):socket_(std::move(socket)),
     server_storage_(server_storage){}
 
 void Session::parse(Request& req,std::string_view data)
@@ -52,13 +52,13 @@ void Session::read()
         if(req.command=="SET")
         {
 
-           (*server_storage_)[std::string(req.key)]=std::string(req.value); 
+           server_storage_[std::string(req.key)]=std::string(req.value); 
            write("Dom_Dom setted your value by this key!\n");   
         }
 
         else if(req.command == "GET")
         {
-            std::string response = (*server_storage_)[std::string(req.key)]+"\n";
+            std::string response = server_storage_[std::string(req.key)]+"\n";
             write(response);
         }
 

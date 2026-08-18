@@ -13,7 +13,7 @@ void Server::accept_client()
 {
     tcp::socket socket = acceptor_.accept();
     //std::unordered_map<std::string,std::string>* ptr = &storage;
-    Session session(std::move(socket),&storage);
+    Session session(std::move(socket),storage);
     session.start();
 
 }
