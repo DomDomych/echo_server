@@ -1,6 +1,8 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <string>
+#include <unordered_map>
 
 class Server
 {
@@ -13,4 +15,6 @@ private:
     void accept_client();
 
     boost::asio::ip::tcp::acceptor acceptor_;
+
+    std::unordered_map<std::string,std::string> storage;
 };

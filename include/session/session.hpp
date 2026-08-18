@@ -9,7 +9,7 @@ using tcp = boost::asio::ip::tcp;
 class Session
 {
     public:
-        explicit Session(tcp::socket socket);
+        explicit Session(tcp::socket socket,std::unordered_map<std::string,std::string>* server_storage);
 
         void start();
 
@@ -30,5 +30,5 @@ class Session
         tcp::socket socket_;
         std::array<char,1024> buffer_;
 
-        std::unordered_map <std::string,std::string> values;
+        std::unordered_map<std::string,std::string>* server_storage_;
 };

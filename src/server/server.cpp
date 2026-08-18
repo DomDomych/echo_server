@@ -12,8 +12,8 @@ Server::Server(boost::asio::io_context& io,
 void Server::accept_client()
 {
     tcp::socket socket = acceptor_.accept();
-
-    Session session(std::move(socket));
+    //std::unordered_map<std::string,std::string>* ptr = &storage;
+    Session session(std::move(socket),&storage);
     session.start();
 
 }
