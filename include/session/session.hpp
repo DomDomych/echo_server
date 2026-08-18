@@ -1,5 +1,4 @@
 #include <boost/asio.hpp>
-#include <array>
 #include <memory>
 #include <unordered_map>
 #include <string>
@@ -22,13 +21,13 @@ class Session
             std::string_view command{};
             std::string_view key{};
             std::string_view value{};
-        }req;
+        };
 
         void parse(Request& req,std::string_view data);
 
 
         tcp::socket socket_;
-        std::array<char,1024> buffer_;
+        std::string buffer_;
 
         std::unordered_map<std::string,std::string>& server_storage_;
 };
