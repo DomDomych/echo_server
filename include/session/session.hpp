@@ -30,5 +30,5 @@ class Session
         tcp::socket socket_;
         std::array<char,1024> buffer_;
 
-        std::unordered_map<std::string,std::string> server_storage_;
+        std::unordered_map<std::string,std::string>& server_storage_;
 };
