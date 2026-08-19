@@ -1,5 +1,5 @@
 CXX = g++
-TARGET = echo_server
+TARGET = kv_server
 
 SOURCES = \
 	main.cpp \
@@ -9,7 +9,7 @@ SOURCES = \
 OBJECTS = $(SOURCES:.cpp=.o)
 
 CXXFLAG = -std=c++20 -Wall -Wextra
-CPPFLAGS = -I include
+CPPFLAGS = -I include -MMD -MP
 
 .PHONY: all clean
 
