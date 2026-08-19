@@ -49,7 +49,7 @@ void Session::process(Request& req)
     {
         
         if(req.key.empty())
-        {
+        {  
             write("No Key!\n");
             return;
         }
@@ -80,7 +80,7 @@ void Session::process(Request& req)
             return;
         }
 
-        std::string response = server_storage_[std::string(req.key)] + "\n";
+        std::string response = it->second + "\n";
         write(response);
         return;
     }
