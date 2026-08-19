@@ -12,7 +12,7 @@ Server::Server(boost::asio::io_context &io, unsigned short port)
 void Server::accept_client()
 {
     tcp::socket socket = acceptor_.accept();
-    Session session(std::move(socket), storage);
+    Session session(std::move(socket), storage_);
     session.start();
 }
 
