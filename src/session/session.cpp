@@ -13,6 +13,8 @@ void Session::parse(Request &req, std::string_view data)
 
     req.command = data.substr(0, pos);
 
+    if(pos == std::string_view::npos)return;
+
     data.remove_prefix(pos + 1);
 
     pos = data.find(' ');
@@ -22,7 +24,7 @@ void Session::parse(Request &req, std::string_view data)
     if (req.command == "GET" or req.command=="DEL")
         return;
 
-    if(pos==std::string::npos)
+    if(pos==std::string_view::npos)
     {
         req.value = {};
         return;
@@ -45,6 +47,12 @@ void Session::process(Request& req)
 
     if (req.command == "SET")
     {
+        
+        if(req.key.empty())
+        {
+            write("No Key!\n");
+            return;
+        }
         if(req.value.empty())
         {
             write("No Value!\n");
