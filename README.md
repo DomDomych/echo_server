@@ -1,10 +1,12 @@
 # TCP Key-Value Server
 
-A simple synchronous TCP key-value server written in C++20 using Boost.Asio.
+A simple synchronous TCP key-value server and command-line client written in C++20 using Boost.Asio.
 
-The server stores key-value pairs in memory and supports a small line-based protocol.
+The server stores key-value pairs in memory and uses a small line-based protocol.
 
 ## Commands
+
+The following commands are supported:
 
 ```text
 SET key value
@@ -15,30 +17,39 @@ DEL key
 Example:
 
 ```text
-SET name Damir
+> SET name Damir
 OK!
 
-GET name
+> GET name
 Damir
 
-DEL name
+> DEL name
 OK!
+
+> GET name
+No Such Key!
 ```
 
-The storage is shared between client sessions and exists while the server is running.
+## Requirements
+
+* C++20 compatible compiler
+* CMake 3.16+
+* Boost
+* clang-format (optional, for formatting)
 
 ## Build
 
-Requirements:
-
-* C++20 compiler
-* CMake 3.16+
-* Boost
-
-Build the project:
+Build both the server and client:
 
 ```bash
 ./scripts/build.sh
+```
+
+The executables will be created in the `build` directory:
+
+```text
+build/kv_server
+build/kv_client
 ```
 
 ## Run
@@ -46,17 +57,41 @@ Build the project:
 Start the server:
 
 ```bash
-./build/kv_server
+./scripts/run_server.sh
 ```
 
 The server listens on port `8080`.
 
-Connect from another terminal:
+In another terminal, start the client:
 
 ```bash
-./scripts/connect.sh
+./scripts/run_client.sh
+```
+
+The client connects to `127.0.0.1:8080` and provides a simple interactive prompt:
+
+```text
+Connected
+> SET language C++
+OK!
+> GET language
+C++
+> DEL language
+OK!
+```
+
+Type `exit` to close the client.
+
+## Formatting
+
+Format the source files with:
+
+```bash
+./scripts/format.sh
 ```
 
 ## Notes
 
-The current version uses synchronous I/O and handles one client at a time.
+The current implementation uses synchronous I/O and handles one connected client at a time.
+
+The storage is shared between client sessions and exists only while the server is running.
