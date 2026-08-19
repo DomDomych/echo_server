@@ -2,6 +2,7 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
+#include <string_view>
 
 using tcp = boost::asio::ip::tcp;
 
