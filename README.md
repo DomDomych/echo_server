@@ -1,43 +1,44 @@
-# Echo Server
+# TCP Key-Value Server
 
-A simple synchronous TCP echo server written in C++20 using Boost.Asio.
+A simple synchronous TCP key-value server written in C++20 using Boost.Asio.
 
-The server accepts a TCP connection, reads data sent by the client, and sends the same data back.
+The server stores key-value pairs in memory and supports a small line-based protocol.
 
-This project is intended for learning basic TCP networking, Boost.Asio, and CMake.
+## Commands
 
-## Requirements
-
-- C++20 compatible compiler
-- CMake 3.16 or newer
-- Boost
-- netcat (`nc`)
-
-On Ubuntu/Debian:
-
-```bash
-sudo apt install build-essential cmake libboost-all-dev netcat-openbsd
+```text
+SET key value
+GET key
+DEL key
 ```
+
+Example:
+
+```text
+SET name Damir
+OK
+
+GET name
+Damir
+
+DEL name
+OK
+```
+
+The storage is shared between client sessions and exists while the server is running.
 
 ## Build
 
-Clone the repository:
+Requirements:
+
+* C++20 compiler
+* CMake 3.16+
+* Boost
+
+Build the project:
 
 ```bash
-git clone https://github.com/DomDomych/echo_server.git
-cd echo_server
-```
-
-Configure the project:
-
-```bash
-cmake -S . -B build
-```
-
-Build it:
-
-```bash
-cmake --build build
+./scripts/build.sh
 ```
 
 ## Run
@@ -45,56 +46,17 @@ cmake --build build
 Start the server:
 
 ```bash
-./build/echo_server
+./build/tcp_key_value_server
 ```
 
-The server listens on TCP port `8080`.
+The server listens on port `8080`.
 
-Open another terminal and connect to it:
+Connect from another terminal:
 
 ```bash
 ./scripts/connect.sh
 ```
 
-Now type any message:
+## Notes
 
-```text
-hello
-```
-
-The server will send the same data back:
-
-```text
-hello
-```
-
-## How it works
-
-The server uses a blocking, synchronous model.
-
-For each client it:
-
-1. accepts a TCP connection;
-2. creates a session for the connected client;
-3. waits for incoming data;
-4. sends the received data back;
-5. repeats until the client disconnects.
-
-Because the implementation is synchronous, one client is served at a time.
-
-## Project structure
-
-```text
-echo_server/
-├── include/
-│   ├── server/
-│   └── session/
-├── src/
-│   ├── server/
-│   └── session/
-├── scripts/
-│   └── connect.sh
-├── CMakeLists.txt
-├── Makefile
-└── main.cpp
-```
+The current version uses synchronous I/O and handles one client at a time.
