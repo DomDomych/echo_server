@@ -19,13 +19,89 @@ void Session::parse(Request &req, std::string_view data)
 
     req.key = data.substr(0, pos);
 
-    if (req.command == "GET")
+    if (req.command == "GET" or req.command=="DEL")
         return;
+
+    if(pos==std::string::npos)
+    {
+        req.value = {};
+        return;
+    }
 
     else
     {
         data.remove_prefix(pos + 1);
         req.value = data;
+        return;
+    }
+}
+
+void Session::process(Request& req)
+{
+
+
+    if(req.command.empty())return;
+
+
+    if (req.command == "SET")
+    {
+        if(req.value.empty())
+        {
+            write("No Value!\n");
+            return;
+        }
+        server_storage_[std::string(req.key)] = std::string(req.value);
+        write("Dom_Dom setted your value by this key!\n");
+
+        return;
+    }
+
+    else if (req.command == "GET")
+    {
+        if(req.key.empty())
+        {
+            write("No Key!\n");
+            return;
+        }
+
+        auto it = server_storage_.find(std::string(req.key));
+
+        if(it == server_storage_.end())
+        {
+            write("No Such Key!\n");
+            return;
+        }
+
+        std::string response = server_storage_[std::string(req.key)] + "\n";
+        write(response);
+        return;
+    }
+
+    else if (req.command == "DEL")
+    {
+        if(req.key.empty())
+        {
+            write("No Key\n");
+            return;
+        }
+
+        auto it = server_storage_.find(std::string(req.key));
+
+        if(it == server_storage_.end())
+        {
+            write("No Such Key!\n");
+            return;
+        }
+
+        server_storage_.erase(std::string(req.key));
+
+        write("It is deleted, indeed!\n");
+        return;
+    }
+
+    else
+    {
+        write("Unknow Command!\n");
         return;
     }
 }
@@ -56,22 +132,9 @@ void Session::read()
         }
 
         Request req{};
+
         parse(req, temp_data);
-
-        {
-            if (req.command == "SET")
-            {
-
-                server_storage_[std::string(req.key)] = std::string(req.value);
-                write("Dom_Dom setted your value by this key!\n");
-            }
-
-            else if (req.command == "GET")
-            {
-                std::string response = server_storage_[std::string(req.key)] + "\n";
-                write(response);
-            }
-        }
+        process(req);
 
         buffer_.erase(0, bytes);
     }
