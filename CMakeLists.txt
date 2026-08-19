@@ -25,3 +25,18 @@ target_compile_options(kv_server
     -Wpedantic
 )
 
+add_executable(kv_client
+    src/client/client.cpp
+)
+
+target_compile_features(kv_client
+    PRIVATE
+    cxx_std_20
+)
+
+target_compile_options(kv_client
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+)
