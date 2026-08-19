@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 
 find src include -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i {} +
-clang-format -i main.cpp
+clang-format -i main.cpp    
