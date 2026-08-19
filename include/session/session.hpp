@@ -25,6 +25,7 @@ class Session
 
         void parse(Request& req,std::string_view data);
 
+        void process(Request& req);
 
         tcp::socket socket_;
         std::string buffer_;
