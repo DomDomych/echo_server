@@ -1,35 +1,35 @@
 #include <boost/asio.hpp>
-#include <memory>
-#include <unordered_map>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 
 using tcp = boost::asio::ip::tcp;
 
 class Session
 {
-    public:
-        explicit Session(tcp::socket socket,std::unordered_map<std::string,std::string>& server_storage);
+  public:
+    explicit Session(tcp::socket socket,
+                     std::unordered_map<std::string, std::string> &server_storage);
 
-        void start();
+    void start();
 
-    private:
-        void read();
-        void write(const std::string& message);
+  private:
+    void read();
+    void write(const std::string &message);
 
-        struct Request
-        {
-            std::string_view command{};
-            std::string_view key{};
-            std::string_view value{};
-        };
+    struct Request
+    {
+        std::string_view command{};
+        std::string_view key{};
+        std::string_view value{};
+    };
 
-        void parse(Request& req,std::string_view data);
+    void parse(Request &req, std::string_view data);
 
-        void process(Request& req);
+    void process(Request &req);
 
-        tcp::socket socket_;
-        std::string buffer_;
+    tcp::socket socket_;
+    std::string buffer_;
 
-        std::unordered_map<std::string,std::string>& server_storage_;
+    std::unordered_map<std::string, std::string> &server_storage_;
 };

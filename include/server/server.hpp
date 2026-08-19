@@ -6,15 +6,15 @@
 
 class Server
 {
-public:
-    Server(boost::asio::io_context& io,unsigned short port);
+  public:
+    Server(boost::asio::io_context &io, unsigned short port);
 
     void start();
 
-private:
+  private:
     void accept_client();
 
     boost::asio::ip::tcp::acceptor acceptor_;
 
-    std::unordered_map<std::string,std::string> storage;
+    std::unordered_map<std::string, std::string> storage;
 };

@@ -4,8 +4,10 @@
 
 using tcp = boost::asio::ip::tcp;
 
-Session::Session(tcp::socket socket, std::unordered_map<std::string, std::string> &server_storage) : socket_(std::move(socket)),
-                                                                                                     server_storage_(server_storage) {}
+Session::Session(tcp::socket socket, std::unordered_map<std::string, std::string> &server_storage)
+    : socket_(std::move(socket)), server_storage_(server_storage)
+{
+}
 
 void Session::parse(Request &req, std::string_view data)
 {
@@ -13,7 +15,8 @@ void Session::parse(Request &req, std::string_view data)
 
     req.command = data.substr(0, pos);
 
-    if(pos == std::string_view::npos)return;
+    if (pos == std::string_view::npos)
+        return;
 
     data.remove_prefix(pos + 1);
 
@@ -21,10 +24,10 @@ void Session::parse(Request &req, std::string_view data)
 
     req.key = data.substr(0, pos);
 
-    if (req.command == "GET" or req.command=="DEL")
+    if (req.command == "GET" or req.command == "DEL")
         return;
 
-    if(pos==std::string_view::npos)
+    if (pos == std::string_view::npos)
     {
         req.value = {};
         return;
@@ -38,22 +41,21 @@ void Session::parse(Request &req, std::string_view data)
     }
 }
 
-void Session::process(Request& req)
+void Session::process(Request &req)
 {
 
-
-    if(req.command.empty())return;
-
+    if (req.command.empty())
+        return;
 
     if (req.command == "SET")
     {
-        
-        if(req.key.empty())
-        {  
+
+        if (req.key.empty())
+        {
             write("No Key!\n");
             return;
         }
-        if(req.value.empty())
+        if (req.value.empty())
         {
             write("No Value!\n");
             return;
@@ -66,7 +68,7 @@ void Session::process(Request& req)
 
     else if (req.command == "GET")
     {
-        if(req.key.empty())
+        if (req.key.empty())
         {
             write("No Key!\n");
             return;
@@ -74,7 +76,7 @@ void Session::process(Request& req)
 
         auto it = server_storage_.find(std::string(req.key));
 
-        if(it == server_storage_.end())
+        if (it == server_storage_.end())
         {
             write("No Such Key!\n");
             return;
@@ -87,7 +89,7 @@ void Session::process(Request& req)
 
     else if (req.command == "DEL")
     {
-        if(req.key.empty())
+        if (req.key.empty())
         {
             write("No Key\n");
             return;
@@ -95,7 +97,7 @@ void Session::process(Request& req)
 
         auto it = server_storage_.find(std::string(req.key));
 
-        if(it == server_storage_.end())
+        if (it == server_storage_.end())
         {
             write("No Such Key!\n");
             return;
@@ -120,10 +122,8 @@ void Session::read()
     {
         boost::system::error_code ec;
 
-        std::size_t bytes = boost::asio::read_until(socket_,
-                                                    boost::asio::dynamic_buffer(buffer_),
-                                                    '\n',
-                                                    ec);
+        std::size_t bytes =
+            boost::asio::read_until(socket_, boost::asio::dynamic_buffer(buffer_), '\n', ec);
 
         if (ec)
             break;
@@ -150,10 +150,7 @@ void Session::read()
 
 void Session::write(const std::string &message)
 {
-    boost::asio::write(
-        socket_,
-        boost::asio::buffer(
-            message));
+    boost::asio::write(socket_, boost::asio::buffer(message));
 }
 
 void Session::start()
