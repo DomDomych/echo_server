@@ -13,11 +13,11 @@ int main()
 
     boost::system::error_code ec;
 
-    socket.connect(endpoint,ec);
+    socket.connect(endpoint, ec);
 
-    if(ec)
+    if (ec)
     {
-        std::cerr<<"Connection failed: "<<ec.message()<<'\n';
+        std::cerr << "Connection failed: " << ec.message() << '\n';
         return 1;
     }
 
@@ -25,30 +25,25 @@ int main()
 
     std::string request;
 
-    for(;;)
+    for (;;)
     {
 
-        std::cout<<"> ";
+        std::cout << "> ";
 
-        if(!std::getline(std::cin,request))break;
-
+        if (!std::getline(std::cin, request))
+            break;
 
         if (request == "exit")
             break;
 
         request += '\n';
 
-        boost::asio::write(
-            socket,
-            boost::asio::buffer(request)
-        );
+        boost::asio::write(socket, boost::asio::buffer(request));
 
         std::string response;
 
-        boost::asio::read_until(socket,
-        boost::asio::dynamic_buffer(response),
-        '\n');
+        boost::asio::read_until(socket, boost::asio::dynamic_buffer(response), '\n');
 
-        std::cout<<response;
+        std::cout << response;
     }
 }
