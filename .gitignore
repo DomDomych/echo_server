@@ -1,3 +1,5 @@
 *.o
+*.d
 kv_server
+kv_client
 build/
