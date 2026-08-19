@@ -16,13 +16,13 @@ Example:
 
 ```text
 SET name Damir
-OK
+OK!
 
 GET name
 Damir
 
 DEL name
-OK
+OK!
 ```
 
 The storage is shared between client sessions and exists while the server is running.
@@ -46,7 +46,7 @@ Build the project:
 Start the server:
 
 ```bash
-./build/tcp_key_value_server
+./build/kv_server
 ```
 
 The server listens on port `8080`.
