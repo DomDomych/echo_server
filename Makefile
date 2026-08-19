@@ -31,7 +31,7 @@ $(CLIENT_TARGET): $(CLIENT_OBJECTS)
 	$(CXX) $^ -o $@
 
 %.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAG) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 -include $(DEPS)
 
