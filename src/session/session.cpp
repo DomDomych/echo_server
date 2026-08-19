@@ -59,7 +59,7 @@ void Session::process(Request& req)
             return;
         }
         server_storage_[std::string(req.key)] = std::string(req.value);
-        write("Dom_Dom setted your value by this key!\n");
+        write("OK!\n");
 
         return;
     }
@@ -103,13 +103,13 @@ void Session::process(Request& req)
 
         server_storage_.erase(std::string(req.key));
 
-        write("It is deleted, indeed!\n");
+        write("OK!\n");
         return;
     }
 
     else
     {
-        write("Unknow Command!\n");
+        write("ERROR!\n");
         return;
     }
 }
