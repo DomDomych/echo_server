@@ -11,7 +11,15 @@ int main()
 
     tcp::endpoint endpoint{boost::asio::ip::make_address("127.0.0.1"), 8080};
 
-    socket.connect(endpoint);
+    boost::system::error_code ec;
+
+    socket.connect(endpoint,ec);
+
+    if(ec)
+    {
+        std::cerr<<"Connection failed: "<<ec.message()<<'\n';
+        return 1;
+    }
 
     std::cout << "Connected\n";
 
