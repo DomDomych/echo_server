@@ -19,17 +19,6 @@ class Session
     void read();
     void write(const std::string &message);
 
-    struct Request
-    {
-        std::string_view command{};
-        std::string_view key{};
-        std::string_view value{};
-    };
-
-    void parse(Request &req, std::string_view data);
-
-    void process(Request &req);
-
     tcp::socket socket_;
     std::string buffer_;
 
