@@ -5,7 +5,9 @@ CLIENT_TARGET = kv_client
 SERVER_SOURCES = \
 	main.cpp \
 	src/server/server.cpp \
-	src/session/session.cpp
+	src/session/session.cpp \
+	src/protocol/parser.cpp \
+	src/protocol/command_processor.cpp
 
 CLIENT_SOURCES = \
 	src/client/client.cpp
