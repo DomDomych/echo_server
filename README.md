@@ -35,11 +35,12 @@ No Such Key!
 * C++20 compatible compiler
 * CMake 3.16+
 * Boost
+* GoogleTest
 * clang-format (optional, for formatting)
 
 ## Build
 
-Build both the server and client:
+Build the server, client, and unit tests:
 
 ```bash
 ./scripts/build.sh
@@ -50,6 +51,7 @@ The executables will be created in the `build` directory:
 ```text
 build/kv_server
 build/kv_client
+build/kv_tests
 ```
 
 ## Run
@@ -81,6 +83,16 @@ OK!
 ```
 
 Type `exit` to close the client.
+
+## Testing
+
+Run the unit tests with:
+
+```bash
+./scripts/run_tests.sh
+```
+
+The tests are implemented with GoogleTest and executed through CTest.
 
 ## Formatting
 
