@@ -45,6 +45,8 @@ target_compile_options(kv_client
 
 find_package(GTest REQUIRED)
 
+enable_testing()
+
 add_executable(kv_tests
     tests/parser_tests.cpp
     
@@ -71,3 +73,6 @@ target_compile_options(kv_tests
     -Wextra
     -Wpedantic
 )
+
+include(GoogleTest)
+gtest_discover_tests(kv_tests)
