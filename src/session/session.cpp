@@ -1,6 +1,6 @@
 #include "session/session.hpp"
-#include "protocol/parser.hpp"
 #include "protocol/command_processor.hpp"
+#include "protocol/parser.hpp"
 #include "protocol/request.hpp"
 
 #include <boost/asio.hpp>
@@ -39,7 +39,7 @@ void Session::read()
         Request req{};
 
         parse(req, temp_data);
-        write(process(req,server_storage_));
+        write(process(req, server_storage_));
 
         buffer_.erase(0, bytes);
     }

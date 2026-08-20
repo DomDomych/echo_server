@@ -2,10 +2,7 @@
 #include <string>
 #include <unordered_map>
 
-std::string process(
-    const Request& req,
-    std::unordered_map<std::string,std::string>& storage
-)
+std::string process(const Request &req, std::unordered_map<std::string, std::string> &storage)
 {
 
     if (req.command.empty())
@@ -17,12 +14,10 @@ std::string process(
         if (req.key.empty())
         {
             return "No Key!\n";
-            
         }
         if (req.value.empty())
         {
             return "No Value!\n";
-            
         }
         storage[std::string(req.key)] = std::string(req.value);
         return "OK!\n";

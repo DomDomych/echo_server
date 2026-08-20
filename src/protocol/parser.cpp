@@ -1,6 +1,6 @@
 #include "protocol/parser.hpp"
 
-void parse(Request& req,std::string_view data)
+void parse(Request &req, std::string_view data)
 {
     std::size_t pos = data.find(' ');
 

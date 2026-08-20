@@ -4,7 +4,4 @@
 #include <string>
 #include <unordered_map>
 
-std::string process(
-    const Request& req,
-    std::unordered_map<std::string,std::string>& storage
-);
+std::string process(const Request &req, std::unordered_map<std::string, std::string> &storage);
