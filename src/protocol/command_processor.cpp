@@ -6,7 +6,7 @@ std::string process(const Request &req, std::unordered_map<std::string, std::str
 {
 
     if (req.command.empty())
-        return {};
+        return "ERROR!";
 
     if (req.command == "SET")
     {
