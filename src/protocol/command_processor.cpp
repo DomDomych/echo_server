@@ -45,7 +45,7 @@ std::string process(const Request &req, std::unordered_map<std::string, std::str
     {
         if (req.key.empty())
         {
-            return "No Key\n";
+            return "No Key!\n";
         }
 
         auto it = storage.find(std::string(req.key));
