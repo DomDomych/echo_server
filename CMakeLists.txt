@@ -6,6 +6,8 @@ add_executable(kv_server
     main.cpp
     src/server/server.cpp
     src/session/session.cpp
+    src/protocol/parser.cpp
+    src/protocol/command_processor.cpp
 )
 
 target_include_directories(kv_server
