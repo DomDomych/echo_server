@@ -33,7 +33,6 @@ std::string process(
         if (req.key.empty())
         {
             return "No Key!\n";
-            return;
         }
 
         auto it = storage.find(std::string(req.key));
