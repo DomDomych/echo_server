@@ -42,3 +42,32 @@ target_compile_options(kv_client
     -Wextra
     -Wpedantic
 )
+
+find_package(GTest REQUIRED)
+
+add_executable(kv_tests
+    tests/parser_tests.cpp
+    
+    src/protocol/parser.cpp
+)
+
+target_link_libraries(kv_tests
+    PRIVATE
+    GTest::gtest_main
+)
+
+target_include_directories(kv_tests
+    PRIVATE
+    include)
+
+target_compile_features(kv_tests
+    PRIVATE
+    cxx_std_20
+)
+
+target_compile_options(kv_tests
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+)
